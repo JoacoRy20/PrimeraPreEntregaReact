@@ -1,5 +1,5 @@
 function CartWidget() {
-    return <span>🛒</span>;
+  return <span>🛒 (0)</span>;
 }
 
 export default CartWidget;

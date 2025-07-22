@@ -20,7 +20,7 @@ function ItemListContainer({ greeting }) {
     const fetchData = new Promise((resolve) => {
       setTimeout(() => {
         resolve(mockProducts);
-      }, 800);
+      }, 500);
     });
 
     fetchData.then(data => {
@@ -33,7 +33,7 @@ function ItemListContainer({ greeting }) {
     });
   }, [categoryId]);
 
-  if (loading) return <div className="spinner"></div>;
+  if (loading) return <p>Cargando productos...</p>;
 
   return (
     <section>

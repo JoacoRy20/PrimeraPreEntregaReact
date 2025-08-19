@@ -1,46 +1,56 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import ItemList from './ItemList';
+import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { CartContext } from "../context/CartContext";
 
-const mockProducts = [
-  { id: "1", name: "Zapatillas", price: 150, category: "calzado" },
-  { id: "2", name: "Campera", price: 300, category: "ropa" },
-  { id: "3", name: "Gorra", price: 100, category: "accesorios" },
-  { id: "4", name: "Botas", price: 250, category: "calzado" },
-];
-
-function ItemListContainer({ greeting }) {
-  const { categoryId } = useParams();
-  const [products, setProducts] = useState([]);
+function ItemDetailContainer() {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    setLoading(true);
-    
-    const fetchData = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(mockProducts);
-      }, 500);
-    });
+    const fetchData = async () => {
+      try {
+        const docRef = doc(db, "productos", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setProduct({ id: docSnap.id, ...docSnap.data() });
+        }
+      } catch (error) {
+        console.error("Error al traer producto:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    fetchData.then(data => {
-      const filtered = categoryId
-        ? data.filter(p => p.category === categoryId)
-        : data;
+    fetchData();
+  }, [id]);
 
-      setProducts(filtered);
-      setLoading(false);
-    });
-  }, [categoryId]);
-
-  if (loading) return <p>Cargando productos...</p>;
+  if (loading) return <h2 className="text-center mt-5">Cargando detalle...</h2>;
+  if (!product) return <h2 className="text-center mt-5">Producto no encontrado</h2>;
 
   return (
-    <section>
-      {greeting && <h3>{greeting}</h3>}
-      <ItemList products={products} />
-    </section>
+    <div className="container my-5">
+      <div className="row align-items-center">
+        <div className="col-md-6">
+          <img src={product.imagen} alt={product.nombre} className="img-fluid rounded shadow" />
+        </div>
+        <div className="col-md-6">
+          <h2>{product.nombre}</h2>
+          <p className="text-muted">Categoría: {product.categoria}</p>
+          <h3 className="text-primary">${product.precio}</h3>
+          <button
+            className="btn btn-dark mt-3"
+            onClick={() => addToCart(product, 1)}
+          >
+            Agregar al carrito 🛒
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default ItemListContainer;
+export default ItemDetailContainer;

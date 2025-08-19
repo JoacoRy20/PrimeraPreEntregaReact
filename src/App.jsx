@@ -1,19 +1,19 @@
-import NavBar from './components/NavBar';
-import ItemListContainer from './components/ItemListContainer';
-import ItemDetailContainer from './components/ItemDetailContainer';
-import { Routes, Route } from 'react-router-dom';
-import './App.css';
+// src/App.jsx
+import NavBar from "./components/NavBar";
+import ItemListContainer from "./components/ItemListContainer";
+import ItemDetailContainer from "./components/ItemDetailContainer";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
       <NavBar />
-      <main style={{ padding: '20px' }}>
+      <main className="container py-4">
         <Routes>
-          <Route path="/" element={<ItemListContainer greeting="Bienvenido a la tienda!" />} />
-          <Route path="/category/:categoryId" element={<ItemListContainer />} />
-          <Route path="/item/:itemId" element={<ItemDetailContainer />} />
-          <Route path="*" element={<h2>404 - Página no encontrada</h2>} />
+          <Route path="/" element={<ItemListContainer />} />
+          <Route path="/categoria/:categoriaId" element={<ItemListContainer />} />
+          <Route path="/item/:id" element={<ItemDetailContainer />} />
+          <Route path="*" element={<h2 className="text-center mt-5">404 - Página no encontrada</h2>} />
         </Routes>
       </main>
     </>

@@ -1,45 +1,75 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import ItemList from './ItemList';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase";
 
-const mockProducts = [
-  { id: "1", name: "Zapatillas", price: 150, category: "calzado" },
-  { id: "2", name: "Campera", price: 300, category: "ropa" },
-  { id: "3", name: "Gorra", price: 100, category: "accesorios" },
-  { id: "4", name: "Botas", price: 250, category: "calzado" },
-];
-
-function ItemListContainer({ greeting }) {
-  const { categoryId } = useParams();
-  const [products, setProducts] = useState([]);
+function ItemListContainer() {
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { categoriaId } = useParams();
 
   useEffect(() => {
-    setLoading(true);
-    
-    const fetchData = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(mockProducts);
-      }, 800);
-    });
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        let q;
+        if (categoriaId) {
+          // 📌 Si hay categoría en la URL, filtramos
+          q = query(collection(db, "productos"), where("categoria", "==", categoriaId));
+        } else {
+          // 📌 Si no, traemos todos los productos
+          q = collection(db, "productos");
+        }
 
-    fetchData.then(data => {
-      const filtered = categoryId
-        ? data.filter(p => p.category === categoryId)
-        : data;
+        const querySnapshot = await getDocs(q);
+        const products = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setItems(products);
+      } catch (error) {
+        console.error("Error al traer productos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      setProducts(filtered);
-      setLoading(false);
-    });
-  }, [categoryId]);
+    fetchData();
+  }, [categoriaId]);
 
-  if (loading) return <div className="spinner"></div>;
+  if (loading) {
+    return <h2 className="text-center mt-5">Cargando productos...</h2>;
+  }
+
+  if (items.length === 0) {
+    return <h2 className="text-center mt-5">No hay productos en esta categoría</h2>;
+  }
 
   return (
-    <section>
-      {greeting && <h3>{greeting}</h3>}
-      <ItemList products={products} />
-    </section>
+    <div className="container my-5">
+      <div className="row">
+        {items.map((product) => (
+          <div key={product.id} className="col-md-4 mb-4">
+            <div className="card h-100 shadow-sm">
+              <img
+                src={product.imagen}
+                alt={product.nombre}
+                className="card-img-top"
+                style={{ height: "200px", objectFit: "cover" }}
+              />
+              <div className="card-body text-center">
+                <h5 className="card-title">{product.nombre}</h5>
+                <p className="card-text text-muted">Categoría: {product.categoria}</p>
+                <h6 className="text-primary">${product.precio}</h6>
+                <a href={`/item/${product.id}`} className="btn btn-outline-primary btn-sm me-2">
+                  Ver detalle
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

@@ -1,43 +1,46 @@
-/* App.css */
-
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  background-color: #0071a5;
+  background-color: #f4f4f4;
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #ccc;
+  padding: 10px;
 }
 
-ul {
+nav ul {
   display: flex;
   gap: 15px;
   list-style: none;
   padding: 0;
 }
 
-ul li a {
+nav ul li a {
   text-decoration: none;
   color: #333;
   font-weight: bold;
 }
 
-ul li a:hover {
+nav ul li a:hover {
   color: #007bff;
 }
 
-h3 {
-  margin-top: 20px;
+main {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
 }
 
 .item-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
-  padding: 20px;
+  padding: 20px 0;
 }
 
 .item-card {
@@ -61,13 +64,4 @@ h3 {
   to {
     transform: rotate(360deg);
   }
-}
-
-main {
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
 }

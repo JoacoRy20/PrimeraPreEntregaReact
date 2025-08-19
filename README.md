@@ -1,12 +1,31 @@
-# React + Vite
+# Proyecto E-Commerce (React + Firebase)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Inicio rápido
 
-Currently, two official plugins are available:
+1. Clonar o copiar proyecto
+2. Ejecutar `npm install`
+3. Copiar `.env.example` → `.env` y rellenar con tus credenciales de Firebase
+4. Ejecutar `npm run dev`
+5. En Firebase Console activar **Firestore** con colecciones:
+   - `products`: en cada documento usar campos:
+     - `name`, `description`, `price`, `stock`, `category` (textos como "ropa", "calzado")
+   - `orders`: se generarán con `buyer`, `items`, `total`, `createdAt`
+6. Probar catálogo, detalle, carrito, checkout
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Estructura destacada
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/context/CartContext.jsx`: gestión global del carrito
+- `src/components`: nav, lista, detalle, carrito, checkout
+- `src/firebase.js`: conexión a Firebase/Firestore
+- `src/App.jsx`: rutas principales (`/`, `/item/:id`, `/cart`, `/checkout`, `*`)
+
+---
+
+## Deploy (opcional)
+
+- Crear cuenta en **Vercel** o **Netlify**
+- Conectar el repo (GitHub)
+- Agregar variables de entorno (`VITE_API_KEY`, etc.)
+- Lista y checkout ¡funcionan en vivo!

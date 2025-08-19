@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-function Item({ id, name, price }) {
+export default function Item({ id, name, price }) {
   return (
     <div className="item-card">
       <h4>{name}</h4>
@@ -9,5 +9,3 @@ function Item({ id, name, price }) {
     </div>
   );
 }
-
-export default Item;

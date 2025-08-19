@@ -1,6 +1,6 @@
-import Item from './Item';
+import Item from "./Item.jsx";
 
-function ItemList({ products }) {
+export default function ItemList({ products }) {
   return (
     <div className="item-grid">
       {products.map(prod => (
@@ -9,5 +9,3 @@ function ItemList({ products }) {
     </div>
   );
 }
-
-export default ItemList;

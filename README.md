@@ -1,19 +1,4 @@
 # Proyecto E-Commerce (React + Firebase)
-
-## Inicio rápido
-
-1. Clonar o copiar proyecto
-2. Ejecutar `npm install`
-3. Copiar `.env.example` → `.env` y rellenar con tus credenciales de Firebase
-4. Ejecutar `npm run dev`
-5. En Firebase Console activar **Firestore** con colecciones:
-   - `products`: en cada documento usar campos:
-     - `name`, `description`, `price`, `stock`, `category` (textos como "ropa", "calzado")
-   - `orders`: se generarán con `buyer`, `items`, `total`, `createdAt`
-6. Probar catálogo, detalle, carrito, checkout
-
----
-
 ## Estructura destacada
 
 - `src/context/CartContext.jsx`: gestión global del carrito
